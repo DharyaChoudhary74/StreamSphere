@@ -176,6 +176,7 @@ const updateComment = asyncHandler(async (req, res) => {
       throw new ApiError(400, "Comment does not exist");
     }
 
+    // Check if the user is the owner of the comment
     if (existingComment.owner.toString() !== req.user._id.toString()) {
       throw new ApiError(403, "You are not authorized to update this Comment");
     }
@@ -215,6 +216,8 @@ const deleteComment = asyncHandler(async (req, res) => {
       throw new ApiError(400, "Comment does not exist");
     }
 
+    // Check if the user is the owner of the comment
+    // If the user is not the owner, throw an error
     if (existingComment.owner.toString() !== req.user._id.toString()) {
       throw new ApiError(403, "You are not authorized to delete this Comment");
     }
