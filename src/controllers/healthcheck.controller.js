@@ -1,18 +1,17 @@
-import { Router } from "express";
-import {
-  getLikedVideos,
-  toggleCommentLike,
-  toggleVideoLike,
-  toggleTweetLike,
-} from "../controllers/like.controller.js";
-import { verifyJWT } from "../middlewares/auth.middleware.js";
+import { ApiResponse } from "../utils/apiResponse.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
-const router = Router();
-router.use(verifyJWT); // Apply verifyJWT middleware to all routes in this file
+const healthcheck = asyncHandler(async (req, res) => {
+  //TODO: build a healthcheck response that simply returns the OK status as json with a message
+  return res
+    .status(201)
+    .json(
+      new ApiResponse(
+        200,
+        { message: "ok" },
+        "Successfully fetched healthcheck"
+      )
+    );
+});
 
-router.route("/toggle/v/:videoId").post(toggleVideoLike);
-router.route("/toggle/c/:commentId").post(toggleCommentLike);
-router.route("/toggle/t/:tweetId").post(toggleTweetLike);
-router.route("/videos").get(getLikedVideos);
-
-export default router;
+export { healthcheck };
