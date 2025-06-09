@@ -167,8 +167,8 @@ const getLikedVideos = asyncHandler(async (req, res) => {
       Like.aggregate([
         {
           $match: {
-            likedBy: new mongoose.Types.ObjectId(req.user._id),
-            video: { $exists: true },
+            likedBy: new mongoose.Types.ObjectId(req.user?._id),// it is not passed directly ensuring it is a valid ObjectId
+            video: { $exists: true }, // Ensure we are only fetching video likes
           },
         },
         {
@@ -198,7 +198,7 @@ const getLikedVideos = asyncHandler(async (req, res) => {
               {
                 $addFields: {
                   owner: {
-                    $first: "$owner",
+                    $first: "$owner",// Ensure owner is an object, not an array
                   },
                 },
               },

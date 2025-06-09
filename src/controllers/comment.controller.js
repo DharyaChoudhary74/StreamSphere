@@ -32,7 +32,7 @@ const getVideoComments = asyncHandler(async (req, res) => {
   if (query) {
     aggregationPipeline.push({
       $match: {
-        content: { $regex: query, $options: "i" },
+        content: { $regex: query, $options: "i" },//case in sensative search
       },
     });
   }
@@ -61,7 +61,7 @@ const getVideoComments = asyncHandler(async (req, res) => {
       as: "videoDetail",
     },
   });
-  // Unwind the ownerDetails array
+  // Unwind the videodetail array
   aggregationPipeline.push({
     $unwind: "$videoDetail",
   });
@@ -93,7 +93,7 @@ const getVideoComments = asyncHandler(async (req, res) => {
 
   // Sorting
   aggregationPipeline.push({
-    $sort: { [sortBy]: sortOrder },
+    $sort: { [sortBy]: sortOrder },//[] use changing the key dynamically
   });
 
   // Pagination
