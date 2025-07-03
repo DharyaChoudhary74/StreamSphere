@@ -5,7 +5,7 @@ import { ApiResponse } from "../utils/apiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import {
   deleteFromCloudinary,
-  uploadOnCloudinary,
+  uploadToCloudinary,
 } from "../utils/cloudinary.js";
 
 const publishAVideo = asyncHandler(async (req, res) => {
@@ -27,8 +27,8 @@ const publishAVideo = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Thumbnail is required");
   }
 
-  const videoFileupload = await uploadOnCloudinary(videoFilelocal);
-  const thumbnailupload = await uploadOnCloudinary(thumbnailLocal);
+  const videoFileupload = await uploadToCloudinary(videoFilelocal);
+  const thumbnailupload = await uploadToCloudinary(thumbnailLocal);
 
   if (!videoFileupload) {
     throw new ApiError(500, "Something went wrong while uploading video");
@@ -81,7 +81,7 @@ const updateVideoDetails = asyncHandler(async (req, res) => {
   let thumbnail;
 
   if (thumbnailLocalPath) {
-    thumbnail = await uploadOnCloudinary(thumbnailLocalPath);
+    thumbnail = await uploadToCloudinary(thumbnailLocalPath);
 
     if (!thumbnail.url) {
       throw new ApiError(500, "Something went wrong while uploading thumbnail");
